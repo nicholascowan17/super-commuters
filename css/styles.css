@@ -1,0 +1,138 @@
+html, body, #mapContainer {
+  height: 100%;
+  margin: 0;
+}
+
+.modal-content {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 6px;
+  padding: 15px 20px 15px 20px;
+}
+
+.modal-header {
+  display: block;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.modal-body {
+  padding: 1rem 1rem 0rem 1rem;
+}
+
+.modal-footer {
+  justify-content: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.legend {
+  position: fixed;
+  z-index: 1;
+  left: 50px;
+  top: 715px;
+  background-color: rgba(247, 247, 247, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 10px 15px 10px 15px;
+  width: 250px;
+  border-radius: 6px;
+}
+
+.legend-title {
+  font-size: 10px;
+  letter-spacing: 0.075em;
+  color: rgba(0, 0, 0, 0.75);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.color-code {
+  display: flex;
+}
+
+.colors {
+  width: 50px;
+  height: 10px;
+}
+
+#c1 {
+  background-color: #FCFADA;
+}
+
+#c2 {
+  background-color: #A4DAD3;
+}
+
+#c3 {
+  background-color: #73A8C2;
+}
+
+#c4 {
+  background-color: #507CB2;
+}
+
+#c5 {
+  background-color: #30529F;
+}
+
+#c6 {
+  background-color: #263A83;
+}
+
+.color-labels-container {
+  margin-top: 4px;
+  margin-left: 28px;
+  display: flex;
+  width: 165px;
+  justify-content: space-between;
+}
+
+.color-label {
+  top: 70px;
+  font-size: 10px;
+  letter-spacing: 0.075em;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+  font: georgia, serif;
+  color: #fff;
+  margin: 0 0 15px 0;
+}
+
+h2 {
+  font: 400 14.9px/20px georgia, serif;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: justify;
+  margin-bottom: 1rem;
+}
+
+.instructions {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+h3 {
+  font-size: 17px;
+  font: georgia, serif;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+strong {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: bolder;
+}
+
+p {
+  font: 500 10px/10px helvetica, sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.075em;
+  line-height: 15px;
+  margin-bottom: 0.2rem;
+}
+
+a {
+  color: lightblue;
+}
+
+h4 {
+  font: georgia, serif;
+  color: black;
+  font-size: 13px;
+}
