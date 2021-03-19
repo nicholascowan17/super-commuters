@@ -1,14 +1,20 @@
+// set my mapboxgl access token
 mapboxgl.accessToken = 'pk.eyJ1IjoibmljaG9sYXNjb3dhbjE3IiwiYSI6ImNrM28yNm1uaDAwcHkzbnFkam02dHJ0NjQifQ.E1RO9e96qZUpgn-1muXorg';
 
-$(document).ready(function(){
-    $("#myModal").modal('show');
-});
+// initialize modal on page load
+// $(document).ready(function(){
+//     $("#myModal").modal('show');
+// });
+
+// set some static variables that will be used in multiple places
+var INITIAL_CENTER = [-97.0, 37.5]
+var INITIAL_ZOOM = 4.1
 
 var map = new mapboxgl.Map({
   container: 'mapContainer', // container ID
-  style: 'mapbox://styles/mapbox/dark-v10', // style URL
-  center: [-97.0, 37.5], // starting position [lng, lat]
-  zoom: 4.1 // starting zoom
+  style: 'mapbox://styles/mapbox/basic-v8', // style URL
+  center: INITIAL_CENTER, // starting position [lng, lat]
+  zoom: INITIAL_ZOOM // starting zoom
 });
 
 // disable map zoom when using scroll
@@ -19,6 +25,11 @@ var nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'top-right');
 
 map.on('load', function() {
+  // override the fill color of the basemap water layer
+  map.setPaintProperty('background', 'background-color', '#f5f5f5');
+  map.setPaintProperty('water', 'fill-color', '#D6DEDD');
+  map.setPaintProperty('place_label_city', 'text-color', '#242424');
+
   // add geojson source for puma travel times
   map.addSource('traveltime', {
     type: 'geojson',
@@ -30,12 +41,11 @@ map.on('load', function() {
     'id': 'PERCENT OVER 0 MIN',
     'type': 'fill',
     'source': 'traveltime',
-    'layout': {},
+    'layout': {'visibilty':'none'},
     'paint': {
       'fill-color': '#263A83'
-    },
-    'fill-opacity': 0.85
-  })
+    }
+  }, 'place_label_city');
 
   // add travel time layer
   map.addLayer({
@@ -44,83 +54,58 @@ map.on('load', function() {
     'source': 'traveltime',
     'layout': {},
     'paint': {
-      'fill-color': {
-        property: 'travel-time_t30',
-        stops: [
-          [0, '#FCFADA'],
-          [10, '#A4DAD3'],
-          [15, '#73A8C2'],
-          [20, '#507CB2'],
-          [25, '#30529F'],
-          [30, '#263A83']
-        ]
-      }
-    },
-    'fill-opacity': 0.85
-  })
+      'fill-color': [
+        'step',
+        ['get', 'travel-time_t30'],
+        '#FCFADA',
+        5, '#A4DAD3',
+        10, '#73A8C2',
+        15, '#507CB2',
+        20, '#30529F',
+        25, '#263A83',
+      ]
+    }
+  }, 'place_label_city');
 
-  // // add travel time layer
-  // map.addLayer({
-  //   'id': 'PERCENT OVER 60 MIN',
-  //   'type': 'fill',
-  //   'source': 'traveltime',
-  //   'layout': {},
-  //   'paint': {
-  //     'fill-color': {
-  //       property: 'travel-time_t60',
-  //       stops: [
-  //         [10, '#CCE6FF'],
-  //         [15, '#8FAECC'],
-  //         [20, '#6289B3'],
-  //         [25, '#3C5D80'],
-  //         [30, '#24374D']
-  //       ]
-  //     }
-  //   },
-  //   'fill-opacity': 0.85
-  // })
-  //
-  // // add travel time layer
-  // map.addLayer({
-  //   'id': 'PERCENT OVER 90 MIN',
-  //   'type': 'fill',
-  //   'source': 'traveltime',
-  //   'layout': {},
-  //   'paint': {
-  //     'fill-color': {
-  //       property: 'travel-time_t90',
-  //       stops: [
-  //         [10, '#CCE6FF'],
-  //         [15, '#8FAECC'],
-  //         [20, '#6289B3'],
-  //         [25, '#3C5D80'],
-  //         [30, '#24374D']
-  //       ]
-  //     }
-  //   },
-  //   'fill-opacity': 0.85
-  // })
-  //
-  // // add travel time layer
-  // map.addLayer({
-  //   'id': 'PERCENT OVER 120 MIN',
-  //   'type': 'fill',
-  //   'source': 'traveltime',
-  //   'layout': {},
-  //   'paint': {
-  //     'fill-color': {
-  //       property: 'travel-time_t120',
-  //       stops: [
-  //         [10, '#CCE6FF'],
-  //         [15, '#8FAECC'],
-  //         [20, '#6289B3'],
-  //         [25, '#3C5D80'],
-  //         [30, '#24374D']
-  //       ]
-  //     }
-  //   },
-  //   'fill-opacity': 0.85
-  // })
+  // add travel time layer
+  map.addLayer({
+    'id': 'PERCENT OVER 60 MIN',
+    'type': 'fill',
+    'source': 'traveltime',
+    'layout': {'visibilty':'none'},
+    'paint': {
+      'fill-color': [
+        'step',
+        ['get', 'travel-time_t60'],
+        '#FCFADA',
+        5, '#A4DAD3',
+        10, '#73A8C2',
+        15, '#507CB2',
+        20, '#30529F',
+        25, '#263A83',
+      ]
+    }
+  }, 'place_label_city');
+
+  // add travel time layer
+  map.addLayer({
+    'id': 'PERCENT OVER 90 MIN',
+    'type': 'fill',
+    'source': 'traveltime',
+    'layout': {'visibilty':'none'},
+    'paint': {
+      'fill-color': [
+        'step',
+        ['get', 'travel-time_t90'],
+        '#FCFADA',
+        5, '#A4DAD3',
+        10, '#73A8C2',
+        15, '#507CB2',
+        20, '#30529F',
+        25, '#263A83'
+      ]
+    }
+  }, 'place_label_city');
 
   // add outlines
   map.addLayer({
@@ -132,24 +117,85 @@ map.on('load', function() {
     'line-color': 'rgba(235, 235, 235, 0.3)',
     'line-width': 0.2
   }
-})
+}, 'place_label_city')
 
-// add geojson source for state boundaries
-map.addSource('states', {
-  type: 'geojson',
-  data: 'data/state-boundaries.geojson'
+  // add geojson source for state boundaries
+  map.addSource('states', {
+    type: 'geojson',
+    data: 'data/state-boundaries.geojson'
+  });
+
+  // add outlines
+  map.addLayer({
+  'id': 'state-outlines',
+  'type': 'line',
+  'source': 'states',
+  'layout': {},
+  'paint': {
+    'line-color': 'rgba(235, 235, 235, 0.5)',
+    'line-width': 1.2
+  }
+}, 'place_label_city')
+
+  // add an empty data source, which we will use to highlight the puma the user is hovering over
+  map.addSource('highlight-feature', {
+    type: 'geojson',
+    data: {
+      type: 'FeatureCollection',
+      features: []
+    }
+  })
+
+  // add a layer for the highlighted puma
+  map.addLayer({
+    id: 'highlight-line',
+    type: 'line',
+    source: 'highlight-feature',
+    paint: {
+      'line-width': 1,
+      'line-color': 'white',
+    }
+  })
 });
 
-// add outlines
-map.addLayer({
-'id': 'state-outlines',
-'type': 'line',
-'source': 'states',
-'layout': {},
-'paint': {
-  'line-color': 'rgba(235, 235, 235, 0.4)',
-  'line-width': 1
-}
-})
-
+// Create a popup, but don't add it to the map yet.
+var popup = new mapboxgl.Popup({
+  closeButton: false,
+  closeOnClick: false
 });
+
+map.on('mousemove', function (e) {
+  // query for the features under the mouse
+  var features = map.queryRenderedFeatures(e.point, {
+      layers: ['PERCENT OVER 30 MIN'],
+  });
+
+  if (features.length > 0) {
+    // show the popup
+    // Populate the popup and set its coordinates based on the feature found.
+    var hoveredFeature = features[0]
+    var name = hoveredFeature.properties.Name
+
+    var popupContent = `
+      <div class="travel-popup" id="travel30-popup">
+        <b>${name}</b>
+      </div>
+    `
+
+    popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+
+    // set this lot's polygon feature as the data for the highlight source
+    map.getSource('highlight-feature').setData(hoveredFeature.geometry);
+
+    // show the cursor as a pointer
+    map.getCanvas().style.cursor = 'pointer';
+  } else {
+    // remove the Popup
+    popup.remove();
+    map.getCanvas().style.cursor = '';
+    map.getSource('highlight-feature').setData({
+          "type": "FeatureCollection",
+          "features": []
+      });
+  }
+})
