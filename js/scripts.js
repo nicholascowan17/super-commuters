@@ -2,13 +2,21 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoibmljaG9sYXNjb3dhbjE3IiwiYSI6ImNrM28yNm1uaDAwcHkzbnFkam02dHJ0NjQifQ.E1RO9e96qZUpgn-1muXorg';
 
 // initialize modal on page load
-// $(document).ready(function(){
-//     $("#myModal").modal('show');
-// });
+$(document).ready(function(){
+    $("#myModal").modal('show');
+});
+
+// function to convert number to string with commas
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// load the google visualization API and the corechart package
+google.charts.load('current', {'packages':['corechart']});
 
 // set some static variables that will be used in multiple places
 var INITIAL_CENTER = [-97.0, 37.5]
-var INITIAL_ZOOM = 4.1
+var INITIAL_ZOOM = 4.05
 
 var map = new mapboxgl.Map({
   container: 'mapContainer', // container ID
@@ -56,7 +64,7 @@ map.on('load', function() {
     'paint': {
       'fill-color': [
         'step',
-        ['get', 'travel-time_t30'],
+        ['get', 'travel_time_p30'],
         '#FCFADA',
         5, '#A4DAD3',
         10, '#73A8C2',
@@ -76,7 +84,7 @@ map.on('load', function() {
     'paint': {
       'fill-color': [
         'step',
-        ['get', 'travel-time_t60'],
+        ['get', 'travel_time_p60'],
         '#FCFADA',
         5, '#A4DAD3',
         10, '#73A8C2',
@@ -96,7 +104,7 @@ map.on('load', function() {
     'paint': {
       'fill-color': [
         'step',
-        ['get', 'travel-time_t90'],
+        ['get', 'travel_time_p90'],
         '#FCFADA',
         5, '#A4DAD3',
         10, '#73A8C2',
@@ -175,14 +183,60 @@ map.on('mousemove', function (e) {
     // Populate the popup and set its coordinates based on the feature found.
     var hoveredFeature = features[0]
     var name = hoveredFeature.properties.Name
+    var commuters0 = hoveredFeature.properties.travel_time_t0
+    var commuters30 = hoveredFeature.properties.travel_time_t30
+    var commuters60 = hoveredFeature.properties.travel_time_t60
+    var commuters90 = hoveredFeature.properties.travel_time_t90
+    var commuters120 = hoveredFeature.properties.travel_time_t120
+
+    // function to create pie chart
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+      // create the data table
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Travel Time');
+      data.addColumn('number', 'Commuters');
+      data.addRows([
+        ['Less than 30 min', commuters0],
+        ['30 min - 59 min', commuters30],
+        ['60 min - 89 min', commuters60],
+        ['90 min - 119 min', commuters90],
+        ['120 min or more', commuters120]
+      ]);
+
+      // set chart options
+      var options = {legend: 'right',
+                    width: 350,
+                    height: 200,
+                    chartArea: {'width': '100%', 'height': '80%'},
+                    colors: ['#1B4F6B',
+                      '#5D63A2',
+                      '#C069A9',
+                      '#EC7176',
+                      '#F4AB31'
+                      ]
+                    }
+
+      // instantiate and draw our chart, passing in some options
+      var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+      chart.draw(data, options);
+    }
 
     var popupContent = `
       <div class="travel-popup" id="travel30-popup">
-        <b>${name}</b>
+        <b>Total Commuters by Travel Time</b></br>
+        ${name}
+      </div>
+      <div id="pie-chart"></div>
+      <div class="popup-footer">
+        <i>Hover over the pie chart to see exact totals</i>
       </div>
     `
 
     popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+
+    let elem = document.getElementById('pie-chart')
+    console.log(elem)
 
     // set this lot's polygon feature as the data for the highlight source
     map.getSource('highlight-feature').setData(hoveredFeature.geometry);
