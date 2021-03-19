@@ -161,10 +161,35 @@ map.on('load', function() {
     source: 'highlight-feature',
     paint: {
       'line-width': 1,
-      'line-color': 'white',
+      'line-color': 'yellow',
     }
   })
 });
+
+map.on('mousemove', function (e) {
+  // query for the features under the mouse
+  var features = map.queryRenderedFeatures(e.point, {
+      layers: ['PERCENT OVER 30 MIN'],
+  });
+
+  if (features.length > 0) {
+    var hoveredFeature = features[0]
+
+    // set this lot's polygon feature as the data for the highlight source
+    map.getSource('highlight-feature').setData(hoveredFeature.geometry);
+
+    // show the cursor as a pointer
+    map.getCanvas().style.cursor = 'pointer';
+
+  } else {
+    // remove highlight
+    map.getCanvas().style.cursor = '';
+    map.getSource('highlight-feature').setData({
+          "type": "FeatureCollection",
+          "features": []
+      });
+    }
+})
 
 // Create a popup, but don't add it to the map yet.
 var popup = new mapboxgl.Popup({
@@ -172,7 +197,7 @@ var popup = new mapboxgl.Popup({
   closeOnClick: false
 });
 
-map.on('mousemove', function (e) {
+map.on('click', function (e) {
   // query for the features under the mouse
   var features = map.queryRenderedFeatures(e.point, {
       layers: ['PERCENT OVER 30 MIN'],
@@ -235,21 +260,8 @@ map.on('mousemove', function (e) {
 
     popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
 
-    let elem = document.getElementById('pie-chart')
-    console.log(elem)
-
-    // set this lot's polygon feature as the data for the highlight source
-    map.getSource('highlight-feature').setData(hoveredFeature.geometry);
-
-    // show the cursor as a pointer
-    map.getCanvas().style.cursor = 'pointer';
   } else {
     // remove the Popup
     popup.remove();
-    map.getCanvas().style.cursor = '';
-    map.getSource('highlight-feature').setData({
-          "type": "FeatureCollection",
-          "features": []
-      });
   }
 })
