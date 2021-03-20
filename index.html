@@ -31,10 +31,10 @@
             <a class="nav-link active" aria-current="page" href="#"><i class="fas fa-home"></i> Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fas fa-info-circle"></i> About</a>
+            <a class="nav-link about" href="#"><i class="fas fa-info-circle"></i> About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fas fa-pencil-ruler"></i> Methodology</a>
+            <a class="nav-link methodology" href="#"><i class="fas fa-pencil-ruler"></i> Methodology</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -61,7 +61,8 @@
       </div>
       <div class="modal-body">
         <h2>Nationwide, one in 36 commuters (approximately 4.2 million Americans) are super-commuters, traveling 90+ minutes to work each day. This practice has become increasingly common, but nowhere more pronounced than in the most expensive coastal metro areas: New York, San Francisco, Washington D.C., and Los Angeles. Residing in neighborhoods increasingly distant from unaffordable city centers, these workers often spend two hours or more on public transportation or battling traffic. In light of the COVID-19 pandemic, many of these individuals likely took solace in the rise of remote work; to what extent they return to their super-commutes in the future is largely unknown.</h2>
-        <h2 class="instructions">Use the slider below the map to toggle between commuting times or zoom into individual cities</br>Click on individual areas to see the breakdown of commuting times</h2>
+        <h2 class="instructions">*Use the slider below the map to toggle between commuting times or zoom into individual cities</h2>
+        <h2 class="instructions">*Click on individual areas to see the breakdown of commuting times</h2>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-globe-americas"></i> Launch the Map</button>
@@ -69,7 +70,38 @@
     </div>
   </div>
 </div>
-<button class='flyto' id='reset-button' data-city="reset">Return to U.S.</button>
+<div id="aboutModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1>About</h1>
+      </div>
+      <div class="modal-body">
+        <h2>Nationwide, one in 36 commuters (approximately 4.2 million Americans) are super-commuters, traveling 90+ minutes to work each day. This practice has become increasingly common, but nowhere more pronounced than in the most expensive coastal metro areas: New York, San Francisco, Washington D.C., and Los Angeles. You will find as you toggle through the maps that commute times in rural areas rarely exceed an hour; however many urban workers far exceed those thresholds. In New York City X workers are super-commuters; in Washington D.C. the total is X; X in San Francisco; and X in Los Angeles. Residing in neighborhoods increasingly distant from unaffordable city centers, these workers often spend two hours or more on public transportation or battling traffic.</h2>
+        <h2>In light of the COVID-19 pandemic, many of these individuals likely took solace in the rise of remote work; to what extent they return to their super-commutes in the future is largely unknown.</h2>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="methodsModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1>Methodology</h1>
+      </div>
+      <div class="modal-body">
+        <h2>Data was pulled from IPUMS USA...</h2>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button class='flyto' id='reset-button' data-city="reset">Reset View</button>
 <div id="tools">
   <div class="tool-header">
     <h4>Toggle Between Each Map Based on Commute Times:</h4>
@@ -78,7 +110,7 @@
     <input type="range" min="0" max="120" step="30" value="0" class="slider" id="myRange">
   </div>
   <div class="slider-steps">
-    <h5 class="step">- More than 0 minutes</h5>
+    <h5 class="step">- More than 0 minutes (all workers)</h5>
     <h5 class="step">- More than 30 minutes</h5>
     <h5 class="step">- More than 60 minutes</h5>
     <h5 class="step">- More than 90 minutes</h5>

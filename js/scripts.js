@@ -30,7 +30,7 @@ map.scrollZoom.disable();
 
 // add navigation control in top left
 var nav = new mapboxgl.NavigationControl();
-map.addControl(nav, 'top-right');
+map.addControl(nav, 'top-left');
 
 map.on('load', function() {
   // override the fill color of the basemap water layer
@@ -340,4 +340,14 @@ $('.flyto').on('click', function() {
         zoom: INITIAL_ZOOM
       })
   }
+})
+
+// open modal when 'about' button is clicked
+$('.about').on('click', function() {
+  $('#aboutModal').modal('show');
+})
+
+// open modal when 'methodology' button is clicked
+$('.methodology').on('click', function() {
+  $('#methodsModal').modal('show');
 })
