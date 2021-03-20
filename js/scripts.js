@@ -60,7 +60,7 @@ map.on('load', function() {
     'id': 'PERCENT OVER 30 MIN',
     'type': 'fill',
     'source': 'traveltime',
-    'layout': {'visibilty':'none'},
+    'layout': {'visibility':'none'},
     'paint': {
       'fill-color': [
         'step',
@@ -80,7 +80,7 @@ map.on('load', function() {
     'id': 'PERCENT OVER 60 MIN',
     'type': 'fill',
     'source': 'traveltime',
-    'layout': {'visibilty':'none'},
+    'layout': {'visibility':'none'},
     'paint': {
       'fill-color': [
         'step',
@@ -100,11 +100,31 @@ map.on('load', function() {
     'id': 'PERCENT OVER 90 MIN',
     'type': 'fill',
     'source': 'traveltime',
-    'layout': {'visibilty':'none'},
+    'layout': {'visibility':'none'},
     'paint': {
       'fill-color': [
         'step',
         ['get', 'travel_time_p90'],
+        '#FCFADA',
+        5, '#A4DAD3',
+        10, '#73A8C2',
+        15, '#507CB2',
+        20, '#30529F',
+        25, '#263A83'
+      ]
+    }
+  }, 'place_label_city');
+
+  // add travel time layer
+  map.addLayer({
+    'id': 'PERCENT OVER 120 MIN',
+    'type': 'fill',
+    'source': 'traveltime',
+    'layout': {'visibility':'none'},
+    'paint': {
+      'fill-color': [
+        'step',
+        ['get', 'travel_time_p120'],
         '#FCFADA',
         5, '#A4DAD3',
         10, '#73A8C2',
@@ -169,7 +189,7 @@ map.on('load', function() {
 map.on('mousemove', function (e) {
   // query for the features under the mouse
   var features = map.queryRenderedFeatures(e.point, {
-      layers: ['PERCENT OVER 0 MIN', 'PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN'],
+      layers: ['PERCENT OVER 0 MIN', 'PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN', 'PERCENT OVER 120 MIN'],
   });
 
   if (features.length > 0) {
@@ -200,7 +220,7 @@ var popup = new mapboxgl.Popup({
 map.on('click', function (e) {
   // query for the features under the mouse
   var features = map.queryRenderedFeatures(e.point, {
-      layers: ['PERCENT OVER 30 MIN'],
+      layers: ['PERCENT OVER 0 MIN', 'PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN', 'PERCENT OVER 120 MIN'],
   });
 
   if (features.length > 0) {
@@ -280,6 +300,7 @@ function maptoggle(e) {
   map.setLayoutProperty('PERCENT OVER 30 MIN', 'visibility', 'none');
   map.setLayoutProperty('PERCENT OVER 60 MIN', 'visibility', 'none');
   map.setLayoutProperty('PERCENT OVER 90 MIN', 'visibility', 'none');
+  map.setLayoutProperty('PERCENT OVER 120 MIN', 'visibility', 'none');
 
   map.setLayoutProperty(mapId, 'visibility', 'visible');
 }
