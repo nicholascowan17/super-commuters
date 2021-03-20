@@ -49,7 +49,7 @@ map.on('load', function() {
     'id': 'PERCENT OVER 0 MIN',
     'type': 'fill',
     'source': 'traveltime',
-    'layout': {'visibilty':'none'},
+    'layout': {},
     'paint': {
       'fill-color': '#263A83'
     }
@@ -60,7 +60,7 @@ map.on('load', function() {
     'id': 'PERCENT OVER 30 MIN',
     'type': 'fill',
     'source': 'traveltime',
-    'layout': {},
+    'layout': {'visibilty':'none'},
     'paint': {
       'fill-color': [
         'step',
@@ -161,7 +161,7 @@ map.on('load', function() {
     source: 'highlight-feature',
     paint: {
       'line-width': 1,
-      'line-color': 'yellow',
+      'line-color': '#F4AB31',
     }
   })
 });
@@ -169,7 +169,7 @@ map.on('load', function() {
 map.on('mousemove', function (e) {
   // query for the features under the mouse
   var features = map.queryRenderedFeatures(e.point, {
-      layers: ['PERCENT OVER 30 MIN'],
+      layers: ['PERCENT OVER 0 MIN', 'PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN'],
   });
 
   if (features.length > 0) {
@@ -263,5 +263,60 @@ map.on('click', function (e) {
   } else {
     // remove the Popup
     popup.remove();
+  }
+})
+
+var slider = document.getElementById("myRange")
+slider.onclick = maptoggle
+
+// implement function to toggle between maps
+function maptoggle(e) {
+  // read the value from the slider
+  var value = document.getElementById("myRange").value;
+
+  var mapId = "PERCENT OVER " + value + " MIN";
+
+  map.setLayoutProperty('PERCENT OVER 0 MIN', 'visibility', 'none');
+  map.setLayoutProperty('PERCENT OVER 30 MIN', 'visibility', 'none');
+  map.setLayoutProperty('PERCENT OVER 60 MIN', 'visibility', 'none');
+  map.setLayoutProperty('PERCENT OVER 90 MIN', 'visibility', 'none');
+
+  map.setLayoutProperty(mapId, 'visibility', 'visible');
+}
+
+// implement function for fly-to's to each city and return to nationwide view
+$('.flyto').on('click', function() {
+  var city = $(this).data('city')
+
+  switch(city) {
+    case 'New York City':
+      map.flyTo({
+        center: [-73.94, 40.76],
+        zoom: 8
+      })
+      break;
+    case 'Washington D.C.':
+      map.flyTo({
+        center: [-77.04, 38.89],
+        zoom: 8
+      })
+      break;
+    case 'San Francisco':
+      map.flyTo({
+        center: [-122.43, 37.77],
+        zoom: 8
+      })
+      break;
+    case 'Los Angeles':
+      map.flyTo({
+        center: [-118.25, 34.05],
+        zoom: 8
+      })
+      break;
+    case 'reset':
+      map.flyTo({
+        center: INITIAL_CENTER,
+        zoom: INITIAL_ZOOM
+      })
   }
 })

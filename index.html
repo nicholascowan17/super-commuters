@@ -41,10 +41,10 @@
               <i class="fas fa-city"></i> Cities
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="#"><i class="fas fa-map-pin"></i> New York City</a></li>
-              <li><a class="dropdown-item" href="#"><i class="fas fa-map-pin"></i> Washington D.C.</a></li>
-              <li><a class="dropdown-item" href="#"><i class="fas fa-map-pin"></i> San Francisco</a></li>
-              <li><a class="dropdown-item" href="#"><i class="fas fa-map-pin"></i> Los Angeles</a></li>
+              <li><a class="dropdown-item flyto" href="#" data-city="New York City"><i class="fas fa-map-pin"></i> New York City</a></li>
+              <li><a class="dropdown-item flyto" href="#" data-city="Washington D.C."><i class="fas fa-map-pin"></i> Washington D.C.</a></li>
+              <li><a class="dropdown-item flyto" href="#" data-city="San Francisco"><i class="fas fa-map-pin"></i> San Francisco</a></li>
+              <li><a class="dropdown-item flyto" href="#" data-city="Los Angeles"><i class="fas fa-map-pin"></i> Los Angeles</a></li>
             </ul>
           </li>
         </ul>
@@ -69,28 +69,38 @@
     </div>
   </div>
 </div>
-<div id="time-slider">
-  <div class="slider" style="position: relative;">
-    <div class="slider-track" style="position: absolute; width: 4px; height: 100%;"></div>
-    <div class="slider-track" id="slider-track-blue" style="position: absolute; width: 4px; height: 100%;"></div>
+<button class='flyto' id='reset-button' data-city="reset">Return to U.S.</button>
+<div id="tools">
+  <div class="tool-header">
+    <h4>Toggle Between Each Map Based on Commute Times:</h4>
   </div>
-</div>
-<div class="legend" id="travel-time-legend">
-  <p class="legend-title">Cumulative Percentage of Workers</p>
-  <div class="color-code">
-    <div class="colors" id="c1"></div>
-    <div class="colors" id="c2"></div>
-    <div class="colors" id="c3"></div>
-    <div class="colors" id="c4"></div>
-    <div class="colors" id="c5"></div>
-    <div class="colors" id="c6"></div>
+  <div class="slidecontainer">
+    <input type="range" min="0" max="120" step="30" value="0" class="slider" id="myRange">
   </div>
-  <div class="color-labels-container">
-    <div class="color-label" id="l1">10%</div>
-    <div class="color-label" id="l2">15%</div>
-    <div class="color-label" id="l3">20%</div>
-    <div class="color-label" id="l4">25%</div>
-    <div class="color-label" id="l5">30%</div>
+  <div class="slider-steps">
+    <h5 class="step">- More than 0 minutes</h5>
+    <h5 class="step">- More than 30 minutes</h5>
+    <h5 class="step">- More than 60 minutes</h5>
+    <h5 class="step">- More than 90 minutes</h5>
+    <h5 class="step">- More than 120 minutes</h5>
+  </div>
+  <div class="legend" id="travel-time-legend">
+    <p class="legend-title">Cumulative Percentage of Workers</p>
+    <div class="color-code">
+      <div class="colors" id="c1"></div>
+      <div class="colors" id="c2"></div>
+      <div class="colors" id="c3"></div>
+      <div class="colors" id="c4"></div>
+      <div class="colors" id="c5"></div>
+      <div class="colors" id="c6"></div>
+    </div>
+    <div class="color-labels-container">
+      <div class="color-label" id="l1">10%</div>
+      <div class="color-label" id="l2">15%</div>
+      <div class="color-label" id="l3">20%</div>
+      <div class="color-label" id="l4">25%</div>
+      <div class="color-label" id="l5">30%</div>
+    </div>
   </div>
 </div>
 <div id="mapContainer"></div>
