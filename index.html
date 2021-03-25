@@ -21,14 +21,14 @@
 <div id="navbar">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Super-Commuter Map</a>
+      <a class="navbar-brand" href="#">Super-Commuters in the United States</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#"><i class="fas fa-home"></i> Home</a>
+            <a class="nav-link home" aria-current="page" href="#"><i class="fas fa-home"></i> Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link about" href="#"><i class="fas fa-info-circle"></i> About</a>
@@ -93,7 +93,9 @@
         <h1>Methodology</h1>
       </div>
       <div class="modal-body">
-        <h2>Data was pulled from IPUMS USA...</h2>
+        <h2>Public Use Microdata Areas (PUMAs) are used as the geographic scale for aggregating travel-to-work data. PUMAs are statistical areas defined by the Census Bureau for disseminating American Community Survey (ACS) estimates. They have a minimum population of 100,000 and are aggregated from census tracts.</h2>
+        <h2>This map employs Public Use Microdata Sample data from the most recent five-year estimates (2015–2019) of the American Community Survey. This microdata, provided by <a href="https://usa.ipums.org/usa/">IPUMS USA</a>, is composed of records containing information collected on individuals and households, sampled and weighted to create accurate population estimates. Utilizing five-year estimates of the ACS helps to ensure increased statistical reliability and reasonably precise estimates by industry and PUMA.</h2>
+        <h2>IPUMS estimates for travel times were pulled for all PUMAs in the continental U.S. and travel mode data was pulled specifically for PUMAs in New York City, Washington D.C., San Francisco, and Los Angeles. Data was cleaned in <a href="https://www.python.org/">Python 3.8</a> and joined to spatial boundaries in <a href="https://qgis.org/en/site/">QGIS 3.18</a>. These datasets were exported as geojsons and simplified in <a href="https://mapshaper.org/">mapshaper</a> to reduce file sizes.</h2>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -104,27 +106,36 @@
 <button class='flyto' id='reset-button' data-city="reset">Reset View</button>
 <div id="tools">
   <div class="tool-header">
-    <h4>Toggle Between Each Map Based on Commute Times:</h4>
+    <h4>Currently Displaying:</h4>
   </div>
-  <div class="slidecontainer">
-    <input type="range" min="0" max="120" step="30" value="0" class="slider" id="myRange">
+  <div class="layer-buttons">
+    <nav id="menu"></nav>
+    <p id="layer-note">*NOTE: the percent transit layer is only available for the four major cities</p>
   </div>
-  <div class="slider-steps">
-    <h5 class="step">- More than 0 minutes (all workers)</h5>
-    <h5 class="step">- More than 30 minutes</h5>
-    <h5 class="step">- More than 60 minutes</h5>
-    <h5 class="step">- More than 90 minutes</h5>
-    <h5 class="step">- More than 120 minutes</h5>
+  <div class="slider">
+    <div class="tool-header">
+      <h4>Toggle Between Each Map Based on Commute Times:</h4>
+    </div>
+    <div class="slidecontainer">
+      <input type="range" min="0" max="120" step="30" value="0" class="slider" id="myRange">
+    </div>
+    <div class="slider-steps">
+      <h5 class="step">- More than 0 minutes (all workers)</h5>
+      <h5 class="step">- More than 30 minutes</h5>
+      <h5 class="step">- More than 60 minutes</h5>
+      <h5 class="step">- More than 90 minutes</h5>
+      <h5 class="step">- More than 120 minutes</h5>
+    </div>
   </div>
   <div class="legend" id="travel-time-legend">
     <p class="legend-title">Cumulative Percentage of Workers</p>
     <div class="color-code">
-      <div class="colors" id="c1"></div>
-      <div class="colors" id="c2"></div>
-      <div class="colors" id="c3"></div>
-      <div class="colors" id="c4"></div>
-      <div class="colors" id="c5"></div>
-      <div class="colors" id="c6"></div>
+      <div class="colors" id="c1" style="background-color: #FCFADA"></div>
+      <div class="colors" id="c2" style="background-color: #A4DAD3"></div>
+      <div class="colors" id="c3" style="background-color: #73A8C2"></div>
+      <div class="colors" id="c4" style="background-color: #507CB2"></div>
+      <div class="colors" id="c5" style="background-color: #30529F"></div>
+      <div class="colors" id="c6" style="background-color: #263A83"></div>
     </div>
     <div class="color-labels-container">
       <div class="color-label" id="l1">10%</div>
@@ -132,6 +143,24 @@
       <div class="color-label" id="l3">20%</div>
       <div class="color-label" id="l4">25%</div>
       <div class="color-label" id="l5">30%</div>
+    </div>
+  </div>
+  <div class="legend" id="travel-mode-legend">
+    <p class="legend-title">Percent of Super-Commuters who Ride Public Transit</p>
+    <div class="color-code">
+      <div class="colors" id="c1" style="background-color: #F2F0F7"></div>
+      <div class="colors" id="c2" style="background-color: #DADAEB"></div>
+      <div class="colors" id="c3" style="background-color: #BCBDDC"></div>
+      <div class="colors" id="c4" style="background-color: #9E9AC8"></div>
+      <div class="colors" id="c5" style="background-color: #756BB1"></div>
+      <div class="colors" id="c6" style="background-color: #54278F"></div>
+    </div>
+    <div class="color-labels-container">
+      <div class="color-label" id="l1">20%</div>
+      <div class="color-label" id="l2">36%</div>
+      <div class="color-label" id="l3">50%</div>
+      <div class="color-label" id="l4">62%</div>
+      <div class="color-label" id="l5">75%</div>
     </div>
   </div>
 </div>

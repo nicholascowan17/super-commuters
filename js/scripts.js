@@ -37,11 +37,20 @@ map.on('load', function() {
   map.setPaintProperty('background', 'background-color', '#f5f5f5');
   map.setPaintProperty('water', 'fill-color', '#D6DEDD');
   map.setPaintProperty('place_label_city', 'text-color', '#242424');
+  map.setLayoutProperty('poi_label', 'visibility', 'none');
+  map.setLayoutProperty('place_label_other', 'visibility', 'none');
+  map.setLayoutProperty('country_label', 'visibility', 'none');
 
   // add geojson source for puma travel times
   map.addSource('traveltime', {
     type: 'geojson',
     data: 'data/travel-time-pumas.geojson'
+  });
+
+  // add geojson source for puma travel modes
+  map.addSource('travelmode', {
+    type: 'geojson',
+    data: 'data/travel-mode-pumas.geojson'
   });
 
   // add travel time layer
@@ -131,6 +140,37 @@ map.on('load', function() {
         15, '#507CB2',
         20, '#30529F',
         25, '#263A83'
+      ]
+    }
+  }, 'place_label_city');
+
+  // add travel mode base layer
+  map.addLayer({
+    'id': 'MODE BASE',
+    'type': 'fill',
+    'source': 'traveltime',
+    'layout': {'visibility':'none'},
+    'paint': {
+      'fill-color': '#fff'
+    }
+  }, 'place_label_city');
+
+  // add travel mode layer
+  map.addLayer({
+    'id': 'TRAVEL MODE',
+    'type': 'fill',
+    'source': 'travelmode',
+    'layout': {'visibility':'none'},
+    'paint': {
+      'fill-color': [
+        'step',
+        ['get', 'travel_modes_transit_sp'],
+        '#F2F0F7',
+        0.2, '#DADAEB',
+        0.36, '#BCBDDC',
+        0.5, '#9E9AC8',
+        0.62, '#756BB1',
+        0.75, '#54278F'
       ]
     }
   }, 'place_label_city');
@@ -286,10 +326,66 @@ map.on('click', function (e) {
   }
 })
 
+// implement function to toggle between layers
+
+// enumerate ids of the layers
+var toggleableLayerIds = ['COMMUTE TIMES', 'PERCENT TRANSIT'];
+
+// set up the corresponding toggle button for each layer
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+  var id = toggleableLayerIds[i];
+
+  var link = document.createElement('a');
+  link.href = '#';
+  if (id === 'COMMUTE TIMES') {
+    link.className = 'active';
+  } else {
+    link.className = '';
+  }
+  link.textContent = id;
+
+  link.onclick = function (e) {
+    var clickedLayer = this.textContent;
+    e.preventDefault();
+    e.stopPropagation();
+
+    $('.active')[0].className = '';
+
+    if (clickedLayer === 'COMMUTE TIMES') {
+      $('.slider').show();
+      $('#travel-time-legend').show();
+      $('#travel-mode-legend').hide();
+      $('#tools').css("height","410px")
+      map.setLayoutProperty('MODE BASE', 'visibility', 'none');
+      map.setLayoutProperty('TRAVEL MODE', 'visibility', 'none');
+      map.setLayoutProperty('PERCENT OVER 0 MIN', 'visibility', 'visible');
+    }
+
+    if (clickedLayer === 'PERCENT TRANSIT') {
+      $('.slider').hide();
+      $('#travel-time-legend').hide();
+      $('#travel-mode-legend').show();
+      $('#tools').css("height","210px")
+      map.setLayoutProperty('PERCENT OVER 0 MIN', 'visibility', 'none');
+      map.setLayoutProperty('PERCENT OVER 30 MIN', 'visibility', 'none');
+      map.setLayoutProperty('PERCENT OVER 60 MIN', 'visibility', 'none');
+      map.setLayoutProperty('PERCENT OVER 90 MIN', 'visibility', 'none');
+      map.setLayoutProperty('PERCENT OVER 120 MIN', 'visibility', 'none');
+      map.setLayoutProperty('MODE BASE', 'visibility', 'visible');
+      map.setLayoutProperty('TRAVEL MODE', 'visibility', 'visible');
+    }
+
+    this.className = 'active';
+  };
+
+  var layers = document.getElementById('menu');
+  layers.appendChild(link);
+}
+
 var slider = document.getElementById("myRange")
 slider.onclick = maptoggle
 
-// implement function to toggle between maps
+// implement function to toggle between travel time maps
 function maptoggle(e) {
   // read the value from the slider
   var value = document.getElementById("myRange").value;
@@ -313,25 +409,25 @@ $('.flyto').on('click', function() {
     case 'New York City':
       map.flyTo({
         center: [-73.94, 40.76],
-        zoom: 8
+        zoom: 7.4
       })
       break;
     case 'Washington D.C.':
       map.flyTo({
-        center: [-77.04, 38.89],
-        zoom: 8
+        center: [-77.04, 38.75],
+        zoom: 7.8
       })
       break;
     case 'San Francisco':
       map.flyTo({
         center: [-122.43, 37.77],
-        zoom: 8
+        zoom: 8.4
       })
       break;
     case 'Los Angeles':
       map.flyTo({
         center: [-118.25, 34.05],
-        zoom: 8
+        zoom: 8.2
       })
       break;
     case 'reset':
@@ -340,6 +436,15 @@ $('.flyto').on('click', function() {
         zoom: INITIAL_ZOOM
       })
   }
+})
+
+// reset page when 'home' button is clicked
+$('.home').on('click', function() {
+  map.flyTo({
+    center: INITIAL_CENTER,
+    zoom: INITIAL_ZOOM
+  });
+  $('#myModal').modal('show');
 })
 
 // open modal when 'about' button is clicked

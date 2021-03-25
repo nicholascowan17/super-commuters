@@ -36,6 +36,10 @@ html, body {
   display: none;
 }
 
+.navbar-brand {
+  cursor: default;
+}
+
 #reset-button {
   position: fixed;
   width: 105px;
@@ -61,7 +65,41 @@ html, body {
   border-radius: 6px;
   padding: 15px 20px 15px 20px;
   width: 280px;
-  height: 285px;
+  height: 410px;
+}
+
+#menu {
+background-color: rgba(0, 0, 0, 0.5);
+display: flex;
+flex-wrap: nowrap;
+margin-bottom: 5px;
+z-index: 1;
+top: 10px;
+right: 10px;
+border-radius: 3px;
+width: 240px;
+font-family: helvetica, sans-serif;
+}
+
+#menu a {
+font-size: 10.5px;
+color: rgba(255, 255, 255, 0.7);
+flex: 50%;
+margin: 0;
+padding: 0;
+padding: 10px;
+text-decoration: none;
+border-radius: 3px;
+text-align: center;
+}
+
+#menu a.active {
+background-color: #f8f8f8;
+color: #404040;
+}
+
+#layer-note{
+  margin-bottom: 15px;
 }
 
 .slidecontainer {
@@ -82,6 +120,10 @@ html, body {
   position: relative;
 }
 
+#travel-mode-legend {
+  display: none;
+}
+
 .legend-title {
   font-size: 10px;
   letter-spacing: 0.075em;
@@ -97,30 +139,6 @@ html, body {
 .colors {
   width: 40px;
   height: 10px;
-}
-
-#c1 {
-  background-color: #FCFADA;
-}
-
-#c2 {
-  background-color: #A4DAD3;
-}
-
-#c3 {
-  background-color: #73A8C2;
-}
-
-#c4 {
-  background-color: #507CB2;
-}
-
-#c5 {
-  background-color: #30529F;
-}
-
-#c6 {
-  background-color: #263A83;
 }
 
 .color-labels-container {
@@ -175,7 +193,7 @@ p {
 }
 
 a {
-  color: lightblue;
+  color: rgba(115, 168, 194, 0.8);
 }
 
 h4 {
