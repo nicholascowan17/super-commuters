@@ -61,24 +61,106 @@
       </div>
       <div class="modal-body">
         <h2>Nationwide, one in 36 commuters (approximately 4.2 million Americans) are super-commuters, traveling 90+ minutes to work each day. This practice has become increasingly common, but nowhere more pronounced than in the most expensive coastal metro areas: New York, San Francisco, Washington D.C., and Los Angeles. Residing in neighborhoods increasingly distant from unaffordable city centers, these workers often spend two hours or more on public transportation or battling traffic. In light of the COVID-19 pandemic, many of these individuals likely took solace in the rise of remote work; to what extent they return to their super-commutes in the future is largely unknown.</h2>
-        <h2 class="instructions">*Use the slider below the map to toggle between commuting times or zoom into individual cities</h2>
-        <h2 class="instructions">*Click on individual areas to see the breakdown of commuting times</h2>
+        <h2 class="instructions">*Click 'How it Works' below to learn the key features of the map, or click 'Launch the Map' to get started right away.</h2>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-globe-americas"></i> Launch the Map</button>
+        <button type="button" class="btn btn-secondary" id="tip-btn" data-bs-dismiss="modal"><i class="fas fa-question-circle"></i></i> How it Works</button>
+        <button type="button" class="btn btn-secondary" id="launch-btn" data-bs-dismiss="modal"><i class="fas fa-globe-americas"></i> Launch the Map</button>
       </div>
     </div>
   </div>
 </div>
+<div id="tip-1">
+  <div class="tip-right"></div>
+  <div id="tip-content">
+    <div id="tip-header">
+      <h1 id="tip-title">Toggle Between Layers</h1>
+    </div>
+    <div id="tip-body">
+      <h2 id="tip-text">The map includes two distinct data layers: the first shows the cumulative percentage of workers whose commute times are greater than some time interval; the second shows the percentage of super-commuters (over 90-minute commute time) who take public transit to work. This second layer is only available for the four biggest cities for super-commuting: New York City, Washington D.C., San Francisco, and Los Angeles.</h2>
+    </div>
+    <div id="tip-footer">
+      <button type="button" class="close-btn">Close</button>
+      <button type="button" class="prev-btn" id="prev-1"><i class="fas fa-long-arrow-alt-left"></i> Previous</button>
+      <button type="button" class="next-btn" id="next-1">Next <i class="fas fa-long-arrow-alt-right"></i></i></button>
+    </div>
+  </div>
+</div>
+<div id="tip-2">
+  <div class="tip-right"></div>
+  <div id="tip-content">
+    <div id="tip-header">
+      <h1 id="tip-title">Select Commute Time Interval</h1>
+    </div>
+    <div id="tip-body">
+      <h2 id="tip-text">When the commute times layer is active, you can toggle between each interval. These are cumulative so it starts with all workers and slowly dwindles to the few workers who travel two or more hours to work.</h2>
+    </div>
+    <div id="tip-footer">
+      <button type="button" class="close-btn">Close</button>
+      <button type="button" class="prev-btn" id="prev-2"><i class="fas fa-long-arrow-alt-left"></i> Previous</button>
+      <button type="button" class="next-btn" id="next-2">Next <i class="fas fa-long-arrow-alt-right"></i></i></button>
+    </div>
+  </div>
+</div>
+<div id="tip-3">
+  <div class="tip-top"></div>
+  <div id="tip-content">
+    <div id="tip-header">
+      <h1 id="tip-title">Fly To Major Cities</h1>
+    </div>
+    <div id="tip-body">
+      <h2 id="tip-text">In order to examine travel mode shares in each of the four major super-commuting cities, or to simply assess travel times up close, use the above dropdown to zoom in on your city of choice.</h2>
+    </div>
+    <div id="tip-footer">
+      <button type="button" class="close-btn">Close</button>
+      <button type="button" class="prev-btn" id="prev-3"><i class="fas fa-long-arrow-alt-left"></i> Previous</button>
+      <button type="button" class="next-btn" id="next-3">Next <i class="fas fa-long-arrow-alt-right"></i></i></button>
+    </div>
+  </div>
+</div>
+<div id="tip-4">
+  <div class="tip-top"></div>
+  <div id="tip-content">
+    <div id="tip-header">
+      <h1 id="tip-title">Return to Original View</h1>
+    </div>
+    <div id="tip-body">
+      <h2 id="tip-text">Click here to reset the view and return to the overview of the continental United States. You can alternatively click 'home' on the navigation bar which will reset the map entirely.</h2>
+    </div>
+    <div id="tip-footer">
+      <button type="button" class="close-btn">Close</button>
+      <button type="button" class="prev-btn" id="prev-4"><i class="fas fa-long-arrow-alt-left"></i> Previous</button>
+      <button type="button" class="next-btn" id="next-4">Next <i class="fas fa-long-arrow-alt-right"></i></i></button>
+    </div>
+  </div>
+</div>
+<div id="tip-5">
+  <div class="tip-right"></div>
+  <div id="tip-content">
+    <div id="tip-header">
+      <h1 id="tip-title">Show Popups</h1>
+    </div>
+    <div id="tip-body">
+      <h2 id="tip-text">Click on any map feature to reveal a popup with information about that region. When the commute times layer is active, this will show the percentage of workers in each commute time interval; when the percent transit layer is active, the popup will display a comparison between commute modes of super-commuters and those of all workers.</h2>
+    </div>
+    <div id="tip-footer">
+      <button type="button" class="close-btn">Close</button>
+      <button type="button" class="prev-btn" id="prev-5"><i class="fas fa-long-arrow-alt-left"></i> Previous</button>
+      <button type="button" class="next-btn" id="next-5">Next <i class="fas fa-long-arrow-alt-right"></i></i></button>
+    </div>
+  </div>
+</div>
+<div id="modal-backdrop"></div>
 <div id="aboutModal" class="modal fade" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h1>About</h1>
       </div>
       <div class="modal-body">
-        <h2>Nationwide, one in 36 commuters (approximately 4.2 million Americans) are super-commuters, traveling 90+ minutes to work each day. This practice has become increasingly common, but nowhere more pronounced than in the most expensive coastal metro areas: New York, San Francisco, Washington D.C., and Los Angeles. You will find as you toggle through the maps that commute times in rural areas rarely exceed an hour; however many urban workers far exceed those thresholds. In New York City X workers are super-commuters; in Washington D.C. the total is X; X in San Francisco; and X in Los Angeles. Residing in neighborhoods increasingly distant from unaffordable city centers, these workers often spend two hours or more on public transportation or battling traffic.</h2>
-        <h2>In light of the COVID-19 pandemic, many of these individuals likely took solace in the rise of remote work; to what extent they return to their super-commutes in the future is largely unknown.</h2>
+        <h2>Nationwide, one in 36 commuters (approximately 4.2 million Americans) are super-commuters, traveling 90+ minutes to work each day. This practice has become increasingly common, but nowhere more pronounced than in the most expensive coastal metro areas: New York, San Francisco, Washington D.C., and Los Angeles. You will find as you toggle through the maps that commute times in rural areas rarely exceed an hour; however many urban workers far exceed those thresholds. In New York City's metropolitan area, 649,839 workers are super-commuters (6.6% of all workers); in Washington D.C. the total is 138,513 (4.2%); 115,356 (4.6%) in San Francisco; and 228,210 (3.5%) in Los Angeles. Residing in neighborhoods increasingly distant from unaffordable city centers, these workers often spend two hours or more commuting each way.</h2>
+        <h2>By zooming into each of these metropolises and examining their travel patterns, another fascinating discovery is made: super-commuters are far more likely to take public transit to work than the average worker. This is true for all four cities. For some, this means a lengthy trip on commuter rail each day between their suburban home and downtown workplace; for the rest who actually live within city borders (many of whom many be essential workers), this simply reflects the unreliable and inconvenient nature of many urban public transit services.</h2>
+        <h2>In light of the COVID-19 pandemic, many super-commuters likely took solace in the rise of remote work. It is still largely unforeseen to what extent they will return to their commutes in the future. Some may bargain with their employers, accepting a slight pay cut for the luxury of working from home, and others may move even further away from the city center, seeking larger properties at more affordable price points. Meanwhile, for the essential workers who do not have these options, transit services could become even less convenient as schedules are adjusted to accomodate the fewer commuters and reduced revenues. For cities to avoid this transit death spiral, funds need to be invested now to build back worn down infrastructure, increase transit reliability and safety, and overall attract new passengers.</h2>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

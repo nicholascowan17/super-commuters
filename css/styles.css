@@ -32,8 +32,121 @@ html, body {
   border-top: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-#aboutModal {
+#tip-1, #tip-2, #tip-3, #tip-4, #tip-5 {
+  position: fixed;
   display: none;
+  z-index: 50;
+}
+
+#tip-1 {
+  bottom: 255px;
+  right: 350px;
+}
+
+#tip-2 {
+  bottom: 140px;
+  right: 350px;
+}
+
+#tip-3 {
+  top: 60px;
+  left: 660px;
+}
+
+#tip-4 {
+  top: 105px;
+  left: 50px;
+}
+
+#tip-5 {
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
+.tip-right {
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 7px solid rgba(255, 255, 255, 1);
+  position: relative;
+  left: 450px;
+  top: 40px;
+}
+
+.tip-top {
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid rgba(255, 255, 255, 1);
+  width: 0;
+  position: relative;
+  left: 40px;
+}
+
+#tip-content {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 6px;
+  padding: 15px 20px 15px 20px;
+  width: 450px;
+  padding: 10px;
+}
+
+#tip-header {
+  padding: 10px 20px 0px 20px;
+  margin-bottom: 0px;
+}
+
+#tip-title {
+  color: black;
+  font-size: 27px;
+  margin: 0px;
+}
+
+#tip-body {
+  padding: 15px 20px 0px 20px;
+}
+
+#tip-text {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 13px;
+  margin-bottom: 0px;
+}
+
+#tip-footer {
+  padding: 10px 20px 0px 20px;
+}
+
+.close-btn, .prev-btn, .next-btn {
+  border: 1px solid #d4d4d4;
+  border-radius: 3px;
+  cursor: pointer;
+  font: 13px/normal sans-serif;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+#prev-1, #next-5 {
+  color: rgba(0, 0, 0, 0.6);
+  cursor: default;
+}
+
+.prev-btn {
+  position: relative;
+  left: 200px;
+}
+
+.next-btn {
+  position: relative;
+  left: 200px;
+}
+
+#modal-backdrop {
+  position: fixed;
+  display: none;
+  background-color: black;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
 }
 
 .navbar-brand {

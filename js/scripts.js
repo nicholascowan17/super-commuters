@@ -497,13 +497,73 @@ $('.flyto').on('click', function() {
   }
 })
 
+// send how-to button to tip 1
+$('#tip-btn').on('click', function() {
+  $('#tip-1').show();
+  $('#modal-backdrop').show();
+})
+
+// close any tip box
+$('.close-btn').on('click', function() {
+  $('#tip-1').hide();
+  $('#tip-2').hide();
+  $('#tip-3').hide();
+  $('#tip-4').hide();
+  $('#tip-5').hide();
+  $('#modal-backdrop').hide();
+})
+
+// send tip 1 next button to tip 2
+$('#next-1').on('click', function() {
+  $('#tip-2').show();
+  $('#tip-1').hide();
+})
+
+// send tip 2 previous button to tip 1
+$('#prev-2').on('click', function() {
+  $('#tip-2').hide();
+  $('#tip-1').show();
+})
+
+// send tip 2 next button to tip 3
+$('#next-2').on('click', function() {
+  $('#tip-3').show();
+  $('#tip-2').hide();
+})
+
+// send tip 3 previous button to tip 2
+$('#prev-3').on('click', function() {
+  $('#tip-3').hide();
+  $('#tip-2').show();
+})
+
+// send tip 3 next button to tip 4
+$('#next-3').on('click', function() {
+  $('#tip-4').show();
+  $('#tip-3').hide();
+})
+
+// send tip 4 previous button to tip 3
+$('#prev-4').on('click', function() {
+  $('#tip-4').hide();
+  $('#tip-3').show();
+})
+
+// send tip 4 next button to tip 5
+$('#next-4').on('click', function() {
+  $('#tip-5').show();
+  $('#tip-4').hide();
+})
+
+// send tip 5 previous button to tip 4
+$('#prev-5').on('click', function() {
+  $('#tip-5').hide();
+  $('#tip-4').show();
+})
+
 // reset page when 'home' button is clicked
 $('.home').on('click', function() {
-  map.flyTo({
-    center: INITIAL_CENTER,
-    zoom: INITIAL_ZOOM
-  });
-  $('#myModal').modal('show');
+  location.reload();
 })
 
 // open modal when 'about' button is clicked
