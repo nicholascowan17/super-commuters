@@ -1,6 +1,6 @@
 html, body {
-  /* height: 100%;
-  width: 100%; */
+  height: 100%;
+  width: 100%;
   margin: 0;
   overflow: none;
 }
@@ -50,7 +50,7 @@ html, body {
 
 #tip-3 {
   top: 60px;
-  left: 660px;
+  left: 710px;
 }
 
 #tip-4 {
