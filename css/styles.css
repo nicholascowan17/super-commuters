@@ -39,12 +39,12 @@ html, body {
 }
 
 #tip-1 {
-  bottom: 255px;
+  bottom: 225px;
   right: 350px;
 }
 
 #tip-2 {
-  bottom: 140px;
+  bottom: 110px;
   right: 350px;
 }
 
@@ -178,7 +178,7 @@ html, body {
   border-radius: 6px;
   padding: 15px 20px 15px 20px;
   width: 280px;
-  height: 410px;
+  height: 380px;
 }
 
 #menu {
@@ -221,6 +221,10 @@ color: #404040;
   top: 63px;
   width: 129px;
   transform: rotate(90deg);
+}
+
+input[type="range"] {
+  width: 100px;
 }
 
 .slider-steps {

@@ -55,21 +55,10 @@ map.on('load', function() {
 
   // add travel time layer
   map.addLayer({
-    'id': 'PERCENT OVER 0 MIN',
-    'type': 'fill',
-    'source': 'traveltime',
-    'layout': {},
-    'paint': {
-      'fill-color': '#263A83'
-    }
-  }, 'place_label_city');
-
-  // add travel time layer
-  map.addLayer({
     'id': 'PERCENT OVER 30 MIN',
     'type': 'fill',
     'source': 'traveltime',
-    'layout': {'visibility':'none'},
+    'layout': {},
     'paint': {
       'fill-color': [
         'step',
@@ -229,7 +218,7 @@ map.on('load', function() {
 map.on('mousemove', function (e) {
   // query for the features under the mouse
   var features = map.queryRenderedFeatures(e.point, {
-      layers: ['PERCENT OVER 0 MIN', 'PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN', 'PERCENT OVER 120 MIN', 'TRAVEL MODE'],
+      layers: ['PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN', 'PERCENT OVER 120 MIN', 'TRAVEL MODE'],
   });
 
   if (features.length > 0) {
@@ -260,7 +249,7 @@ var popup = new mapboxgl.Popup({
 map.on('click', function (e) {
   // query for the features under the mouse
   var features = map.queryRenderedFeatures(e.point, {
-      layers: ['PERCENT OVER 0 MIN', 'PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN', 'PERCENT OVER 120 MIN', 'TRAVEL MODE'],
+      layers: ['PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN', 'PERCENT OVER 120 MIN', 'TRAVEL MODE'],
   });
 
   if (features.length > 0) {
@@ -395,7 +384,6 @@ function maptoggle(e) {
 
   var mapId = "PERCENT OVER " + value + " MIN";
 
-  map.setLayoutProperty('PERCENT OVER 0 MIN', 'visibility', 'none');
   map.setLayoutProperty('PERCENT OVER 30 MIN', 'visibility', 'none');
   map.setLayoutProperty('PERCENT OVER 60 MIN', 'visibility', 'none');
   map.setLayoutProperty('PERCENT OVER 90 MIN', 'visibility', 'none');
@@ -433,7 +421,7 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
       $('.slider').show();
       $('#travel-time-legend').show();
       $('#travel-mode-legend').hide();
-      $('#tools').css("height","410px")
+      $('#tools').css("height","380px")
       map.setLayoutProperty('MODE BASE', 'visibility', 'none');
       map.setLayoutProperty('TRAVEL MODE', 'visibility', 'none');
       maptoggle();
@@ -444,7 +432,6 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
       $('#travel-time-legend').hide();
       $('#travel-mode-legend').show();
       $('#tools').css("height","210px")
-      map.setLayoutProperty('PERCENT OVER 0 MIN', 'visibility', 'none');
       map.setLayoutProperty('PERCENT OVER 30 MIN', 'visibility', 'none');
       map.setLayoutProperty('PERCENT OVER 60 MIN', 'visibility', 'none');
       map.setLayoutProperty('PERCENT OVER 90 MIN', 'visibility', 'none');
