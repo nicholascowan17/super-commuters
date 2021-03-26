@@ -356,6 +356,16 @@ h5 {
   max-width: none !important;
 }
 
+#close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 0px 5px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+}
+
 #pie-chart {
   width: 350px;
   margin: auto;

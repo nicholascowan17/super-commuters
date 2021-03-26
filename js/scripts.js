@@ -300,6 +300,9 @@ map.on('click', function (e) {
 
       var popupContent = `
         <div class="travel-popup" id="travel-mode-popup">
+          <div>
+            <span id='close'>x</span>
+          </div>
           <b>Total Commuters by Travel Mode</b></br>
           ${name}
         </div>
@@ -310,6 +313,11 @@ map.on('click', function (e) {
       `
 
       popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+
+      // close popup on click
+      $('#close').on('click', function() {
+        popup.remove();
+      })
 
     } else {
       var commuters0 = hoveredFeature.properties.travel_time_t0
@@ -354,6 +362,9 @@ map.on('click', function (e) {
 
       var popupContent = `
         <div class="travel-popup" id="travel-time-popup">
+          <div>
+            <span id='close'>x</span>
+          </div>
           <b>Total Commuters by Travel Time</b></br>
           ${name}
         </div>
@@ -364,6 +375,11 @@ map.on('click', function (e) {
       `
 
       popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+
+      // close popup on click
+      $('#close').on('click', function() {
+        popup.remove();
+      })
 
     }
 
