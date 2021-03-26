@@ -425,6 +425,7 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
       map.setLayoutProperty('MODE BASE', 'visibility', 'none');
       map.setLayoutProperty('TRAVEL MODE', 'visibility', 'none');
       maptoggle();
+      popup.remove();
     }
 
     if (clickedLayer === 'PERCENT TRANSIT') {
@@ -438,6 +439,7 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
       map.setLayoutProperty('PERCENT OVER 120 MIN', 'visibility', 'none');
       map.setLayoutProperty('MODE BASE', 'visibility', 'visible');
       map.setLayoutProperty('TRAVEL MODE', 'visibility', 'visible');
+      popup.remove();
     }
 
     this.className = 'active';
