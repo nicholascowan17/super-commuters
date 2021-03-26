@@ -204,7 +204,7 @@ h4 {
 }
 
 h5 {
-  font: 500 11px/11px helvetica, sans-serif;
+  font: 500 10px/10px helvetica, sans-serif;
   color: rgba(255, 255, 255, 0.8);
   letter-spacing: 0.075em;
   line-height: 20px;
@@ -243,5 +243,14 @@ h5 {
 }
 
 #pie-chart > div {
+  width: 350px;
+}
+
+#bar-chart {
+  width: 350px;
+  margin: auto;
+}
+
+#bar-chart > div {
   width: 350px;
 }

@@ -33,7 +33,7 @@ var nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'top-left');
 
 map.on('load', function() {
-  // override the fill color of the basemap water layer
+  // override the fill color of the basemap layers
   map.setPaintProperty('background', 'background-color', '#f5f5f5');
   map.setPaintProperty('water', 'fill-color', '#D6DEDD');
   map.setPaintProperty('place_label_city', 'text-color', '#242424');
@@ -75,11 +75,11 @@ map.on('load', function() {
         'step',
         ['get', 'travel_time_p30'],
         '#FCFADA',
-        5, '#A4DAD3',
-        10, '#73A8C2',
-        15, '#507CB2',
+        2.5, '#A4DAD3',
+        5, '#73A8C2',
+        10, '#507CB2',
         20, '#30529F',
-        25, '#263A83',
+        30, '#263A83',
       ]
     }
   }, 'place_label_city');
@@ -95,11 +95,11 @@ map.on('load', function() {
         'step',
         ['get', 'travel_time_p60'],
         '#FCFADA',
-        5, '#A4DAD3',
-        10, '#73A8C2',
-        15, '#507CB2',
+        2.5, '#A4DAD3',
+        5, '#73A8C2',
+        10, '#507CB2',
         20, '#30529F',
-        25, '#263A83',
+        30, '#263A83',
       ]
     }
   }, 'place_label_city');
@@ -115,11 +115,11 @@ map.on('load', function() {
         'step',
         ['get', 'travel_time_p90'],
         '#FCFADA',
-        5, '#A4DAD3',
-        10, '#73A8C2',
-        15, '#507CB2',
+        2.5, '#A4DAD3',
+        5, '#73A8C2',
+        10, '#507CB2',
         20, '#30529F',
-        25, '#263A83'
+        30, '#263A83'
       ]
     }
   }, 'place_label_city');
@@ -135,11 +135,11 @@ map.on('load', function() {
         'step',
         ['get', 'travel_time_p120'],
         '#FCFADA',
-        5, '#A4DAD3',
-        10, '#73A8C2',
-        15, '#507CB2',
-        20, '#30529F',
-        25, '#263A83'
+        0.025, '#A4DAD3',
+        0.05, '#73A8C2',
+        0.1, '#507CB2',
+        0.2, '#30529F',
+        0.3, '#263A83'
       ]
     }
   }, 'place_label_city');
@@ -151,7 +151,7 @@ map.on('load', function() {
     'source': 'traveltime',
     'layout': {'visibility':'none'},
     'paint': {
-      'fill-color': '#fff'
+      'fill-color': '#f5f5f5'
     }
   }, 'place_label_city');
 
@@ -182,8 +182,8 @@ map.on('load', function() {
   'source': 'traveltime',
   'layout': {},
   'paint': {
-    'line-color': 'rgba(235, 235, 235, 0.3)',
-    'line-width': 0.2
+    'line-color': 'rgba(235, 235, 235, 0.4)',
+    'line-width': 0.3
   }
 }, 'place_label_city')
 
@@ -229,7 +229,7 @@ map.on('load', function() {
 map.on('mousemove', function (e) {
   // query for the features under the mouse
   var features = map.queryRenderedFeatures(e.point, {
-      layers: ['PERCENT OVER 0 MIN', 'PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN', 'PERCENT OVER 120 MIN'],
+      layers: ['PERCENT OVER 0 MIN', 'PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN', 'PERCENT OVER 120 MIN', 'TRAVEL MODE'],
   });
 
   if (features.length > 0) {
@@ -260,7 +260,7 @@ var popup = new mapboxgl.Popup({
 map.on('click', function (e) {
   // query for the features under the mouse
   var features = map.queryRenderedFeatures(e.point, {
-      layers: ['PERCENT OVER 0 MIN', 'PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN', 'PERCENT OVER 120 MIN'],
+      layers: ['PERCENT OVER 0 MIN', 'PERCENT OVER 30 MIN', 'PERCENT OVER 60 MIN', 'PERCENT OVER 90 MIN', 'PERCENT OVER 120 MIN', 'TRAVEL MODE'],
   });
 
   if (features.length > 0) {
@@ -268,63 +268,141 @@ map.on('click', function (e) {
     // Populate the popup and set its coordinates based on the feature found.
     var hoveredFeature = features[0]
     var name = hoveredFeature.properties.Name
-    var commuters0 = hoveredFeature.properties.travel_time_t0
-    var commuters30 = hoveredFeature.properties.travel_time_t30
-    var commuters60 = hoveredFeature.properties.travel_time_t60
-    var commuters90 = hoveredFeature.properties.travel_time_t90
-    var commuters120 = hoveredFeature.properties.travel_time_t120
 
-    // function to create pie chart
-    google.setOnLoadCallback(drawChart);
-    function drawChart() {
-      // create the data table
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Travel Time');
-      data.addColumn('number', 'Commuters');
-      data.addRows([
-        ['Less than 30 min', commuters0],
-        ['30 min - 59 min', commuters30],
-        ['60 min - 89 min', commuters60],
-        ['90 min - 119 min', commuters90],
-        ['120 min or more', commuters120]
-      ]);
+    if (hoveredFeature.layer.id === 'TRAVEL MODE') {
+      var all_car = hoveredFeature.properties.travel_modes_car_at
+      var all_transit = hoveredFeature.properties.travel_modes_transit_at
+      var all_other = hoveredFeature.properties.travel_modes_other_at
+      var sc_car = hoveredFeature.properties.travel_modes_car_st
+      var sc_transit = hoveredFeature.properties.travel_modes_transit_st
+      var sc_other = hoveredFeature.properties.travel_modes_other_st
 
-      // set chart options
-      var options = {legend: 'right',
-                    width: 350,
-                    height: 200,
-                    chartArea: {'width': '100%', 'height': '80%'},
-                    colors: ['#1B4F6B',
-                      '#5D63A2',
-                      '#C069A9',
-                      '#EC7176',
-                      '#F4AB31'
-                      ]
-                    }
+      // function to create pie chart
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        // create the data table
+        var data = google.visualization.arrayToDataTable([
+          ['Group', 'Car', 'Transit', 'Other', {role: 'annotation'}],
+          ['All commuters', all_car, all_transit, all_other, ''],
+          ['Super-commuters', sc_car, sc_transit, sc_other, '']
+        ]);
 
-      // instantiate and draw our chart, passing in some options
-      var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-      chart.draw(data, options);
+        // set chart options
+        var options_fullStacked = {
+                      isStacked: 'percent',
+                      legend: {position: 'bottom', maxLines: 2},
+                      hAxis: {
+                        minValue: 0,
+                        ticks: [0, .25, .5, .75, 1]
+                      },
+                      fontSize: 11,
+                      width: 350,
+                      height: 200,
+                      chartArea: {left:60, top:0, 'width': '100%', 'height': '80%'},
+                      colors: ['#1B4F6B',
+                        '#C069A9',
+                        '#F4AB31'
+                        ]
+                      };
+
+        // instantiate and draw our chart, passing in some options
+        var chart = new google.visualization.BarChart(document.getElementById('bar-chart'));
+        chart.draw(data, options_fullStacked);
+      }
+
+      var popupContent = `
+        <div class="travel-popup" id="travel-mode-popup">
+          <b>Total Commuters by Travel Mode</b></br>
+          ${name}
+        </div>
+        <div id="bar-chart"></div>
+        <div class="popup-footer">
+          <i>Hover over the bar chart to see exact totals</i>
+        </div>
+      `
+
+      popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+
+    } else {
+      var commuters0 = hoveredFeature.properties.travel_time_t0
+      var commuters30 = hoveredFeature.properties.travel_time_t30
+      var commuters60 = hoveredFeature.properties.travel_time_t60
+      var commuters90 = hoveredFeature.properties.travel_time_t90
+      var commuters120 = hoveredFeature.properties.travel_time_t120
+
+      // function to create pie chart
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        // create the data table
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Travel Time');
+        data.addColumn('number', 'Commuters');
+        data.addRows([
+          ['Less than 30 min', commuters0],
+          ['30 min - 59 min', commuters30],
+          ['60 min - 89 min', commuters60],
+          ['90 min - 119 min', commuters90],
+          ['120 min or more', commuters120]
+        ]);
+
+        // set chart options
+        var options = {legend: 'right',
+                      fontSize: 11,
+                      width: 350,
+                      height: 200,
+                      chartArea: {'width': '100%', 'height': '80%'},
+                      colors: ['#1B4F6B',
+                        '#5D63A2',
+                        '#C069A9',
+                        '#EC7176',
+                        '#F4AB31'
+                        ]
+                      }
+
+        // instantiate and draw our chart, passing in some options
+        var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+        chart.draw(data, options);
+      }
+
+      var popupContent = `
+        <div class="travel-popup" id="travel-time-popup">
+          <b>Total Commuters by Travel Time</b></br>
+          ${name}
+        </div>
+        <div id="pie-chart"></div>
+        <div class="popup-footer">
+          <i>Hover over the pie chart to see exact totals</i>
+        </div>
+      `
+
+      popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+
     }
-
-    var popupContent = `
-      <div class="travel-popup" id="travel30-popup">
-        <b>Total Commuters by Travel Time</b></br>
-        ${name}
-      </div>
-      <div id="pie-chart"></div>
-      <div class="popup-footer">
-        <i>Hover over the pie chart to see exact totals</i>
-      </div>
-    `
-
-    popup.setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
 
   } else {
     // remove the Popup
     popup.remove();
   }
 })
+
+var slider = document.getElementById("myRange")
+slider.onclick = maptoggle
+
+// implement function to toggle between travel time maps
+function maptoggle(e) {
+  // read the value from the slider
+  var value = document.getElementById("myRange").value;
+
+  var mapId = "PERCENT OVER " + value + " MIN";
+
+  map.setLayoutProperty('PERCENT OVER 0 MIN', 'visibility', 'none');
+  map.setLayoutProperty('PERCENT OVER 30 MIN', 'visibility', 'none');
+  map.setLayoutProperty('PERCENT OVER 60 MIN', 'visibility', 'none');
+  map.setLayoutProperty('PERCENT OVER 90 MIN', 'visibility', 'none');
+  map.setLayoutProperty('PERCENT OVER 120 MIN', 'visibility', 'none');
+
+  map.setLayoutProperty(mapId, 'visibility', 'visible');
+}
 
 // implement function to toggle between layers
 
@@ -358,7 +436,7 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
       $('#tools').css("height","410px")
       map.setLayoutProperty('MODE BASE', 'visibility', 'none');
       map.setLayoutProperty('TRAVEL MODE', 'visibility', 'none');
-      map.setLayoutProperty('PERCENT OVER 0 MIN', 'visibility', 'visible');
+      maptoggle();
     }
 
     if (clickedLayer === 'PERCENT TRANSIT') {
@@ -380,25 +458,6 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
 
   var layers = document.getElementById('menu');
   layers.appendChild(link);
-}
-
-var slider = document.getElementById("myRange")
-slider.onclick = maptoggle
-
-// implement function to toggle between travel time maps
-function maptoggle(e) {
-  // read the value from the slider
-  var value = document.getElementById("myRange").value;
-
-  var mapId = "PERCENT OVER " + value + " MIN";
-
-  map.setLayoutProperty('PERCENT OVER 0 MIN', 'visibility', 'none');
-  map.setLayoutProperty('PERCENT OVER 30 MIN', 'visibility', 'none');
-  map.setLayoutProperty('PERCENT OVER 60 MIN', 'visibility', 'none');
-  map.setLayoutProperty('PERCENT OVER 90 MIN', 'visibility', 'none');
-  map.setLayoutProperty('PERCENT OVER 120 MIN', 'visibility', 'none');
-
-  map.setLayoutProperty(mapId, 'visibility', 'visible');
 }
 
 // implement function for fly-to's to each city and return to nationwide view
