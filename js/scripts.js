@@ -111,6 +111,7 @@ map.on('load', function() {
   }, 'place_label_city');
 
   // add 120 min travel time layer
+  // data did not mutliply by 100, thus the different decimals here
   map.addLayer({
     'id': 'PERCENT OVER 120 MIN',
     'type': 'fill',
