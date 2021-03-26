@@ -6,11 +6,6 @@ $(document).ready(function(){
     $("#myModal").modal('show');
 });
 
-// function to convert number to string with commas
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-}
-
 // load the google visualization API and the corechart package
 google.charts.load('current', {'packages':['corechart']});
 
@@ -18,6 +13,7 @@ google.charts.load('current', {'packages':['corechart']});
 var INITIAL_CENTER = [-97.0, 37.5]
 var INITIAL_ZOOM = 4.05
 
+// initialize the mapboxgl basemap
 var map = new mapboxgl.Map({
   container: 'mapContainer', // container ID
   style: 'mapbox://styles/mapbox/basic-v8', // style URL
@@ -37,6 +33,7 @@ map.on('load', function() {
   map.setPaintProperty('background', 'background-color', '#f5f5f5');
   map.setPaintProperty('water', 'fill-color', '#D6DEDD');
   map.setPaintProperty('place_label_city', 'text-color', '#242424');
+  // remove unnecessary labels
   map.setLayoutProperty('poi_label', 'visibility', 'none');
   map.setLayoutProperty('place_label_other', 'visibility', 'none');
   map.setLayoutProperty('country_label', 'visibility', 'none');
@@ -53,7 +50,7 @@ map.on('load', function() {
     data: 'data/travel-mode-pumas.geojson'
   });
 
-  // add travel time layer
+  // add 30 min travel time layer
   map.addLayer({
     'id': 'PERCENT OVER 30 MIN',
     'type': 'fill',
@@ -73,7 +70,7 @@ map.on('load', function() {
     }
   }, 'place_label_city');
 
-  // add travel time layer
+  // add 60 min travel time layer
   map.addLayer({
     'id': 'PERCENT OVER 60 MIN',
     'type': 'fill',
@@ -93,7 +90,7 @@ map.on('load', function() {
     }
   }, 'place_label_city');
 
-  // add travel time layer
+  // add 90 min travel time layer
   map.addLayer({
     'id': 'PERCENT OVER 90 MIN',
     'type': 'fill',
@@ -113,7 +110,7 @@ map.on('load', function() {
     }
   }, 'place_label_city');
 
-  // add travel time layer
+  // add 120 min travel time layer
   map.addLayer({
     'id': 'PERCENT OVER 120 MIN',
     'type': 'fill',
@@ -164,7 +161,7 @@ map.on('load', function() {
     }
   }, 'place_label_city');
 
-  // add outlines
+  // add puma outlines
   map.addLayer({
   'id': 'puma-outlines',
   'type': 'line',
@@ -182,7 +179,7 @@ map.on('load', function() {
     data: 'data/state-boundaries.geojson'
   });
 
-  // add outlines
+  // add state outlines
   map.addLayer({
   'id': 'state-outlines',
   'type': 'line',
@@ -224,7 +221,7 @@ map.on('mousemove', function (e) {
   if (features.length > 0) {
     var hoveredFeature = features[0]
 
-    // set this lot's polygon feature as the data for the highlight source
+    // set this puma's polygon feature as the data for the highlight source
     map.getSource('highlight-feature').setData(hoveredFeature.geometry);
 
     // show the cursor as a pointer
@@ -258,6 +255,7 @@ map.on('click', function (e) {
     var hoveredFeature = features[0]
     var name = hoveredFeature.properties.Name
 
+    // differentiate popups for travel time and travel mode layers
     if (hoveredFeature.layer.id === 'TRAVEL MODE') {
       var all_car = hoveredFeature.properties.travel_modes_car_at
       var all_transit = hoveredFeature.properties.travel_modes_transit_at
@@ -266,7 +264,7 @@ map.on('click', function (e) {
       var sc_transit = hoveredFeature.properties.travel_modes_transit_st
       var sc_other = hoveredFeature.properties.travel_modes_other_st
 
-      // function to create pie chart
+      // function to create bar chart
       google.setOnLoadCallback(drawChart);
       function drawChart() {
         // create the data table
@@ -369,18 +367,19 @@ map.on('click', function (e) {
     }
 
   } else {
-    // remove the Popup
+    // remove the popup
     popup.remove();
   }
 })
 
+// pull slider id
 var slider = document.getElementById("myRange")
 slider.onclick = maptoggle
 
 // implement function to toggle between travel time maps
 function maptoggle(e) {
   // read the value from the slider
-  var value = document.getElementById("myRange").value;
+  var value = slider.value;
 
   var mapId = "PERCENT OVER " + value + " MIN";
 
@@ -393,7 +392,6 @@ function maptoggle(e) {
 }
 
 // implement function to toggle between layers
-
 // enumerate ids of the layers
 var toggleableLayerIds = ['COMMUTE TIMES', 'PERCENT TRANSIT'];
 
@@ -410,11 +408,13 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
   }
   link.textContent = id;
 
+  // if statements to toggle maps, legends, and popups depending on selected layer
   link.onclick = function (e) {
     var clickedLayer = this.textContent;
     e.preventDefault();
     e.stopPropagation();
 
+    // change previously active button to inactive
     $('.active')[0].className = '';
 
     if (clickedLayer === 'COMMUTE TIMES') {
@@ -442,9 +442,11 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
       popup.remove();
     }
 
+    // set clicked button to active
     this.className = 'active';
   };
 
+  // append buttons to menu
   var layers = document.getElementById('menu');
   layers.appendChild(link);
 }
